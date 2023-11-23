@@ -43,7 +43,8 @@ We use the awesome tool Langchain in this demo. If you don't know about it, you 
 
 API calls requires money. I would encourage you to generate json files with the responses you usually get from these APIs and locate them inside the utils folder. One way to do it is to call the API manually and save the result in both `job_salary.json` and `linkedin_profile.json` files. The demo is design to read these if there is an error.
 
-## Execution
+
+## Execution
 
 The demo will mimic this behaviour:
 

@@ -20,7 +20,7 @@ We use the awesome tool Langchain in this demo. If you don't know about it, you 
 1. Generate a `.env` file with the following information:
     - SERPAPI_API_KEY=`<API Key for Google Search>` 
     - PROXYCURL_API_KEY=`<API Key for LinkedIn Search>` 
-    - SQL_DATABASE_URI=`"sqlite:///db/mytest.db"``
+    - SQL_DATABASE_URI=`sqlite:///db/mytest.db`
     - X_RAPIDAPI_KEY=`<API Key for Glassdoor Salary information>`
     - USER_FULLNAME=`<The candidate's name>`
     - JOB_POSITION=`<The Job position we are offering>`

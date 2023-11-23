@@ -2,7 +2,7 @@
 
 Note: This repo is not inteded for production use. It is meant to be used to demo the ReAct pattern with customers and find use cases with them. 
 
-ReAct [https://react-lm.github.io/] is an intiutive pattern to perform actions using natural language. This demo allows us to showcase a use case of a Recruiter Agent and a HR Agent interacting between each other to send and offer to a candidate.
+[ReAct](https://react-lm.github.io/) is an intiutive pattern to perform actions using natural language. This demo allows us to showcase a use case of a Recruiter Agent and a HR Agent interacting between each other to send and offer to a candidate.
 
 The demo uses the following tools to fulfill it's mission:
 - A database to find information about the candidate.

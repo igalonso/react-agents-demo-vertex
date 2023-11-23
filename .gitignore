@@ -159,7 +159,8 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-utils/igngar_linkedin_profile.json
-utils/igngar_job_salary.json
+utils/linkedin_profile.json
+utils/job_salary.json
 credentials.json
 token.json
+test.py

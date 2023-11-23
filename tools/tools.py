@@ -41,7 +41,6 @@ class CustomSerpAPIWrapper(SerpAPIWrapper):
             toret = "No good search result found"
         return toret
 
-
 def search_llm(query: str):
     """Searches on LLM."""
     llm = VertexAI()
@@ -97,7 +96,7 @@ def get_scrape_linkedin_profile(linkedin_profile_url: str):
 
     data = response.json()
     if data["code"] != "200":
-        with open("utils/igngar_linkedin_profile.json", "r") as f:
+        with open("utils/linkedin_profile.json", "r") as f:
             data = json.load(f)
     experiences = data["experiences"]
     headline = data["headline"]
@@ -142,6 +141,6 @@ def get_salary_data(query: str):
     # print(f"\nResponse: {response.json()}")
     data = response.json()
     if data["message"] == "You are not subscribed to this API.":
-        with open("utils/igngar_job_salary.json", "r") as f:
+        with open("utils/job_salary.json", "r") as f:
             data = json.load(f)
     return data

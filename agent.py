@@ -1,14 +1,15 @@
 from agents.get_agents import get_search_agent, get_gmail_agent, get_salary_decision_agent
 from dotenv import load_dotenv
 from utils.callbacks import LLMInstrumentationHandler
+import os
 
 load_dotenv()
 if __name__ == "__main__":
     pass
 
-full_name = "Ignacio Garcia"
-company_name = "HubSpot"
-position="Solutions Architect"
+full_name = os.getenv("USER_FULLNAME")
+company_name = os.getenv("COMPANY_NAME")
+position=os.getenv("JOB_POSITION")
 verbose = False
 temp = 0
 

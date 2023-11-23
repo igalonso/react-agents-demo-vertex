@@ -1,6 +1,10 @@
 from faker import Faker
 import random
 import sqlite3
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Connect to the database
 conn = sqlite3.connect("db/mytest.db")
@@ -85,17 +89,21 @@ for i in range(100):
 
 # Commit the changes
 conn.commit()
-query = """
+full_name = os.getenv("USER_FULLNAME")
+array_name = full_name.split(" ")
+array_name = full_name.split(" ")
+query = f"""
 INSERT INTO scouted_candidates (
             first_name, last_name, hire_date, min_salary, max_salary, email,
             phone_number, location, linkedin_url, notes
-        ) VALUES ('Ignacio', 'Garcia', '2023-11-21', '80000','120000', 'igngar@google.com', '+1234567890', 'Seattle, WA','https://www.linkedin.com/in/igngar/', 'Talented software engineer with strong expertise in JavaScript and React.')
+        ) VALUES ('{array_name[0]}', '{array_name[1]}', '2023-11-21', '80000','120000', 'igngar@google.com', '+1234567890', 'Seattle, WA','https://www.linkedin.com/in/igngar/', 'Talented software engineer with strong expertise in JavaScript and React.')
 """
 cursor.execute(query)
 
 # Commit the changes
 conn.commit()
 query = "SELECT count(*) from scouted_candidates;"
+query = "SELECT * from scouted_candidates WHERE first_name = 'Ignacio' AND last_name = 'Garcia';"
 cursor.execute(query)
 totalRows = cursor.fetchone()
 print("Total rows are:  ", totalRows)

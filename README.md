@@ -37,7 +37,7 @@ We use the awesome tool Langchain in this demo. If you don't know about it, you 
 4. Enable the `Vertex AI APIs`. CLick [this link](https://console.cloud.google.com/flows/enableapi?apiid=aiplatform.googleapis.com&_ga=2.183293856.707738149.1700668049-1789233788.1700133640&_gac=1.258834040.1700648608.Cj0KCQiA6vaqBhCbARIsACF9M6kWo-jRmFyoZcXyWAvgIz_GP4p8eWz7svb_u1GIdAphPhQHa8Kviq4aAlOwEALw_wcB).
 5. Run the faker script to create the rows in the database:
 
-        `python utils/faker_db.py`
+        python utils/faker_db.py
 
 ### Recommendations:
 
@@ -54,7 +54,7 @@ The demo will mimic this behaviour:
 
 To run it, use the following command:
 
-    `python agent.py`
+    python agent.py
 
 Check your email (once you enabled the app to interact with the agent) drafts to see the [draft](https://mail.google.com/mail/u/1/#drafts).
 

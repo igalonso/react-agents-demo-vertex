@@ -11,6 +11,8 @@ The demo uses the following tools to fulfill it's mission:
 - Gmail to generate de draft.
 - Other tools to find suitable dates for interviews.
 
+![Alt Text](imgs/demo_gif.gif)
+
 The demo is based in the awesome work by [Eden Marco](https://github.com/g-emarco) in [this repo](https://github.com/g-emarco/llm-agnets).
 
 We use the awesome tool Langchain in this demo. If you don't know about it, you can find a nice video [here](https://www.youtube.com/watch?v=kYRB-vJFy38)
@@ -52,9 +54,13 @@ The demo will mimic this behaviour:
 2. That information will be shared with the HR department who is resposible to allocate budget for the salary.
 3. With this information, the recruiter is going to draft an email to the candidate to explaion the position and the salary offer.
 
-To run it, use the following command:
+To run from the graphical interface run the following command:
 
-    python agent.py
+    streamlit run web/app.py
+
+To run it from the shell, use the following command:
+
+    python shell_execution.py
 
 Check your email (once you enabled the app to interact with the agent) drafts to see the [draft](https://mail.google.com/mail/u/1/#drafts).
 

@@ -42,6 +42,6 @@ def recruiter_start(position: str, company_name: str, full_name: str, verbose: b
     candidate_summary = recruiter_personal_inspection(position, company_name, full_name, verbose)
     salary_offer = hr_salary_estimation(candidate_summary, verbose)
     candidate_summary = candidate_summary + "\nSalary Offer: " + salary_offer + "\n"
-    recruiter_email_creator(candidate_summary,full_name, company_name, position, verbose)
+    return recruiter_email_creator(candidate_summary,full_name, company_name, position, verbose)
 
 #recruiter_start(position, company_name, full_name, verbose)

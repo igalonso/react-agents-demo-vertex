@@ -25,8 +25,8 @@ agent = initialize_agent(tools,
 
 # You can change this question to see how the agent performs.
 # You may get a GuessedAtParserWarning from the wikipedia API, ignore it.
-#print(agent.run("What US President costarred with a chimp in 'Bedtime for Bonzo'?"))
-print(agent.run("Who was the writer of the book that has a character called Captain Walton in it and features a monster that becomes alive by mad scientist?"))
+print(agent.run("What US President costarred with a chimp in 'Bedtime for Bonzo'?"))
+#print(agent.run("Who was the writer of the book that has a character called Captain Walton in it and features a monster that becomes alive by mad scientist?"))
 #print(agent.run("What was the first movie that reached 100 million dollars and was directed by Nacho Vigalondo?"))
 
 

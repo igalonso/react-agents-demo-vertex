@@ -31,17 +31,17 @@ def recruiter_email_creator(candidate_summary: str, full_name: str, company_name
 
 def hr_salary_estimation(candidate_summary:str,verbose: bool) -> None:
     hr_salary_agent = get_salary_decision_agent(temp)
-    task = f"You are a HR agent that needs to provide a salary offer to hire and retain a candidate. You can find the current salary of this candidate using the following information: \n{candidate_summary}\n. You ALWAYS need to improve their current situation. You need to answer in a single line"
+    task = f"You are a HR agent that needs to provide a salary offer to hire and retain a candidate. You can find the current salary of this candidate using the following information: \n{candidate_summary}\n. You ALWAYS need to improve their current situation. You need to answer only with the salary amount."
     print(task)
     return hr_salary_agent.run(task,callbacks=[LLMInstrumentationHandler()] if verbose else [],)
 
-def recruiter_start(position: str, company_name: str, full_name: str, verbose: bool):
+def recruiter_start(position: str, company_name: str, full_name: str, verbose: bool, temperature=temp):
     print(f"Welcome to the ReAct! We are going to do an example of a nice job offer to a candidate. For that we need to do some steps: \n1. Our recruiter agent will gather information about the candidate and the company using Tools. \n2. That information will be shared with the HR department who is resposible to allocate budget for the salary.\n3. With this information, the recruiter is going to draft an email to the candidate to explaion the position and the salary offer.\n\n LET'S GO!")
-    print(f"\nInputs: \n1. Position: {position}\n2. Company Name: {company_name}\n3. Full Name: {full_name}\n4. Verbose: {verbose}\n5. Temperature: {temp}\n\n")
+    print(f"\nInputs: \n1. Position: {position}\n2. Company Name: {company_name}\n3. Full Name: {full_name}\n4. Verbose: {verbose}\n5. Temperature: {temperature}\n\n")
 
     candidate_summary = recruiter_personal_inspection(position, company_name, full_name, verbose)
     salary_offer = hr_salary_estimation(candidate_summary, verbose)
     candidate_summary = candidate_summary + "\nSalary Offer: " + salary_offer + "\n"
-    recruiter_email_creator(candidate_summary,full_name, company_name, position, verbose)
+    return recruiter_email_creator(candidate_summary,full_name, company_name, position, verbose)
 
-recruiter_start(position, company_name, full_name, verbose)
+#recruiter_start(position, company_name, full_name, verbose)

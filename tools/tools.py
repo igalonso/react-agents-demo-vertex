@@ -6,6 +6,7 @@ import os
 import json
 import datetime
 
+# Wrapper around Google Search.
 class CustomSerpAPIWrapper(SerpAPIWrapper):
     def __init__(self):
         super(CustomSerpAPIWrapper, self).__init__()
@@ -40,17 +41,19 @@ class CustomSerpAPIWrapper(SerpAPIWrapper):
         else:
             toret = "No good search result found"
         return toret
-
+# Searches on LLM.
 def search_llm(query: str):
     """Searches on LLM."""
     llm = VertexAI()
     res = llm(f"{query}")
     return res.strip()
+# Searches on Google.
 def get_google_search(query: str):
     """Searches on Google."""
     search = CustomSerpAPIWrapper()
     res = search.run(f"{query}")
     return res.strip()
+# Returns a SQL table for candidates. 
 def describe_sql_table(query: str):
     """Returns a SQL table for candidates. """
     sql = SQLDatabase.from_uri(os.environ["SQL_DATABASE_URI"])
@@ -60,6 +63,7 @@ def describe_sql_table(query: str):
         res = "You used a wrong query. Please try again with these fields candidate_id, first_name, last_name, hire_date, min_salary, max_salary, email, phone_number, location, experience_years, linkedin_url, notes \n"
         res = res + str(e)
     return res
+# Returns a SQL database. The tables are scouted_candidates and fields in this table are:  candidate_id, first_name, last_name, hire_date, min_salary, max_salary, email, phone_number, location, experience_years, linkedin_url, notes 
 def get_sql_database(query: str):
     """Returns a SQL database. The tables are scouted_candidates and fields in this table are:  candidate_id, first_name, last_name, hire_date, min_salary, max_salary, email, phone_number, location, experience_years, linkedin_url, notes """
     sql = SQLDatabase.from_uri(os.environ["SQL_DATABASE_URI"])
@@ -69,6 +73,7 @@ def get_sql_database(query: str):
         res = "You used a wrong query. Please try again with these fields candidate_id, first_name, last_name, hire_date, min_salary, max_salary, email, phone_number, location, experience_years, linkedin_url, notes \n"
         res = res + str(e)
     return res
+# Searches on Wikipedia.
 def get_wikipedia_search(query: str):
     """Searches on Wikipedia."""
     url = "https://en.wikipedia.org/w/api.php"
@@ -81,6 +86,7 @@ def get_wikipedia_search(query: str):
     response = requests.get(url, params=params)
     data = response.json()
     return data
+#scrape information from LinkedIn profiles, Manually scrape the information from the LinkedIn profile
 def get_scrape_linkedin_profile(linkedin_profile_url: str):
     """scrape information from LinkedIn profiles,
     Manually scrape the information from the LinkedIn profile"""

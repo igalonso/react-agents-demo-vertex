@@ -7,6 +7,8 @@ RUN apt-get update && apt-get install -y \
     python3-dev \
     python3-pip
 
+RUN pip install pipenv
+
 # Copy application code to the container image
 WORKDIR /
 COPY . .

@@ -30,16 +30,16 @@ st.markdown(
     f'<div>Welcome to the ReAct! We are going to do an example of a nice job offer to a candidate. For that we need to do some steps:<ul><li>Our recruiter agent will gather information about the candidate and the company using Tools.</li><li>That information will be shared with the HR department who is resposible to allocate budget for the salary.</li><li>With this information, the recruiter is going to draft an email to the candidate to explaion the position and the salary offer.</li></ul>LETS GO!</div>',
     unsafe_allow_html=True
 )
-"""### gif from local file"""
-file_ = open("web/img/demo.gif", "rb")
-contents = file_.read()
-data_url = base64.b64encode(contents).decode("utf-8")
-file_.close()
+# file_ = open("imgs/demo_gif.gif", "rb")
+# contents = file_.read()
+# data_url = base64.b64encode(contents).decode("utf-8")
+# file_.close()
 
-st.markdown(
-    f'<img src="data:image/gif;base64,{data_url}" alt="cat gif">',
-    unsafe_allow_html=True,
-)
+# st.markdown(
+#     f'<img src="data:image/gif;base64,{data_url}" alt="cat gif" width="50%">',
+#     width=500,
+#     unsafe_allow_html=True,
+# )
 
 #st.image("web/img/sdr.jpeg", width=300)
 

@@ -161,6 +161,7 @@ cython_debug/
 
 utils/linkedin_profile.json
 utils/job_salary.json
+#utils/search_response.json
 credentials.json
 sa.json
 token.json

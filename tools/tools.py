@@ -50,6 +50,26 @@ def search_llm(query: str):
 # Searches on Google.
 def get_google_search(query: str):
     """Searches on Google."""
+
+    # super dirty hack to avoid API calls
+    with open("utils/search_response.json", "r") as f:
+        data = json.load(f)
+    if "Solutions Architect" in query: 
+        return data["solutions_architect"]
+    if "Apple" in query:  
+        return data["apple"]
+    if "HubSpot" in query:
+        return data["hubspot"]
+    if "Google" in query:
+        return data["google"]
+    if "average salary of a Sales Engineer" in query:
+        return data["salary_sales_engineer"]
+    if "average salary of a Lawyer" in query:
+        return data["salary_lawyer"]
+    if "Cepsa" in query:
+        return data["cepsa"]
+
+
     search = CustomSerpAPIWrapper()
     res = search.run(f"{query}")
     return res.strip()

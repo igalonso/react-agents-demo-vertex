@@ -10,6 +10,7 @@ if __name__ == "__main__":
 full_name = os.getenv("USER_FULLNAME")
 company_name = os.getenv("COMPANY_NAME")
 position=os.getenv("JOB_POSITION")
+testing = os.getenv("TESTING")
 verbose = False
 temp = 0
 
@@ -37,7 +38,7 @@ def hr_salary_estimation(candidate_summary:str,verbose: bool) -> None:
 
 def recruiter_start(position: str, company_name: str, full_name: str, verbose: bool, temperature=temp):
     print(f"Welcome to the ReAct! We are going to do an example of a nice job offer to a candidate. For that we need to do some steps: \n1. Our recruiter agent will gather information about the candidate and the company using Tools. \n2. That information will be shared with the HR department who is resposible to allocate budget for the salary.\n3. With this information, the recruiter is going to draft an email to the candidate to explaion the position and the salary offer.\n\n LET'S GO!")
-    print(f"\nInputs: \n1. Position: {position}\n2. Company Name: {company_name}\n3. Full Name: {full_name}\n4. Verbose: {verbose}\n5. Temperature: {temperature}\n\n")
+    print(f"\nInputs: \n1. Position: {position}\n2. Company Name: {company_name}\n3. Full Name: {full_name}\n4. Verbose: {verbose}\n5. Temperature: {temperature}\n6. Testing: {testing}\n7. LLM Type: {os.getenv('LLM_TYPE')}\n\n")
 
     candidate_summary = recruiter_personal_inspection(position, company_name, full_name, verbose)
     salary_offer = hr_salary_estimation(candidate_summary, verbose)

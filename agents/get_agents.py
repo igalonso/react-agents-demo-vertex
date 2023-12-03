@@ -4,6 +4,17 @@ from langchain.agents import initialize_agent, Tool, AgentExecutor
 from langchain.agents import AgentType
 from langchain.agents.agent_toolkits import GmailToolkit
 
+from langchain.llms import OpenAI
+from langchain.chat_models import ChatOpenAI as OpenAI
+
+from dotenv import load_dotenv
+import os
+load_dotenv()
+if __name__ == "__main__":
+    pass
+openai_model = "gpt-4"
+#openai_model = "gpt-3.5-turbo-16k"
+
 
 gmail_toolkit = GmailToolkit()
 google_search = Tool(
@@ -42,6 +53,14 @@ what_day_is_today = Tool(
     description="use this tool to current day today"
 )
 
+def getLLM():
+    llm_type = os.getenv("LLM_TYPE")
+    if llm_type == "openai":
+        llm = OpenAI(model_name=openai_model)
+    elif llm_type == "vertexai":
+        llm = VertexAI(temperature=0.3, verbose=True, max_output_tokens=2047,model_name="text-bison-32k")
+    return llm
+
 gmail_tools = [gmail_toolkit.get_tools()[0]]
 
 def get_gmail_agent(temperture=1) -> AgentExecutor:
@@ -49,7 +68,7 @@ def get_gmail_agent(temperture=1) -> AgentExecutor:
     print("*" * 79)
     print("AGENT: Recruiter Email Crafter Agent!")
     print("*" * 79)
-    llm = VertexAI(temperature=temperture, verbose=True, max_output_tokens=2047)
+    llm = getLLM()
     
     agent = initialize_agent(
         gmail_tools,
@@ -64,8 +83,7 @@ def get_search_agent(temperture=1) -> AgentExecutor:
     print("*" * 79)
     print("AGENT: Recruiter information retrieval Agent!")
     print("*" * 79)
-    llm = VertexAI(temperature=temperture, verbose=True, max_output_tokens=2047)
-
+    llm = getLLM()
     tools_for_agent = [
         google_search,
         sql_database,
@@ -88,7 +106,7 @@ def get_salary_decision_agent(temperature=1)-> AgentExecutor:
     print("AGENT: HR salary decision Agent!")
     print("*" * 79)
     #print(f"Temperature: {temperature}")
-    llm = VertexAI(temperature=temperature, verbose=True, max_output_tokens=2047)
+    llm = getLLM()
     tools_for_agent = [
         google_search
     ]

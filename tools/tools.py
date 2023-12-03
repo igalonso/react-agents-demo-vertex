@@ -5,7 +5,12 @@ from langchain.llms import VertexAI
 import os
 import json
 import datetime
+from dotenv import load_dotenv
 
+load_dotenv()
+if __name__ == "__main__":
+    pass
+testing = os.getenv("TESTING")
 # Wrapper around Google Search.
 class CustomSerpAPIWrapper(SerpAPIWrapper):
     def __init__(self):
@@ -50,24 +55,26 @@ def search_llm(query: str):
 # Searches on Google.
 def get_google_search(query: str):
     """Searches on Google."""
-
     # super dirty hack to avoid API calls
-    with open("utils/search_response.json", "r") as f:
-        data = json.load(f)
-    if "Solutions Architect" in query: 
-        return data["solutions_architect"]
-    if "Apple" in query:  
-        return data["apple"]
-    if "HubSpot" in query:
-        return data["hubspot"]
-    if "Google" in query:
-        return data["google"]
-    if "average salary of a Sales Engineer" in query:
-        return data["salary_sales_engineer"]
-    if "average salary of a Lawyer" in query:
-        return data["salary_lawyer"]
-    if "Cepsa" in query:
-        return data["cepsa"]
+    if testing ==  "True":
+        with open("utils/search_response.json", "r") as f:
+            data = json.load(f)
+        if "salary" in query:
+            return data["salary_sales_engineer"]
+        if "Solutions Architect" in query: 
+            return data["solutions_architect"]
+        if "Apple" in query:  
+            return data["apple"]
+        if "HubSpot" in query:
+            return data["hubspot"]
+        if "Google" in query:
+            return data["google"]
+        if "average salary of a Lawyer" in query:
+            return data["salary_lawyer"]
+        if "Cepsa" in query:
+            return data["cepsa"]
+        if "Amazon" in query:
+            return data["amazon"]
 
 
     search = CustomSerpAPIWrapper()

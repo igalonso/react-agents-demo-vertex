@@ -6,6 +6,8 @@ import sys
 sys.path.insert(1, '')
 
 import agent
+import os
+os.environ["TESTING"] = "True"
 
 def remote_css(url):
     st.markdown(f'<link href="{url}" rel="stylesheet">', unsafe_allow_html=True)

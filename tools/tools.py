@@ -6,6 +6,11 @@ import os
 import json
 import datetime
 from dotenv import load_dotenv
+from langchain.retrievers import (
+    GoogleVertexAIMultiTurnSearchRetriever,
+    GoogleVertexAISearchRetriever,
+)
+from langchain.chains import RetrievalQA
 
 load_dotenv()
 if __name__ == "__main__":
@@ -62,6 +67,8 @@ def get_google_search(query: str):
         if "salary" in query:
             return data["salary_sales_engineer"]
         if "Solutions Architect" in query: 
+            return data["solutions_architect"]
+        if "solutions architect" in query: 
             return data["solutions_architect"]
         if "Apple" in query:  
             return data["apple"]
@@ -177,3 +184,19 @@ def get_salary_data(query: str):
         with open("utils/job_salary.json", "r") as f:
             data = json.load(f)
     return data
+
+def get_interview_feedback(query: str):
+    retriever = GoogleVertexAISearchRetriever(
+        project_id=os.environ["PROJECT_ID"],
+        location_id=os.environ["LOCATION_ID"],
+        data_store_id=os.environ["DATA_STORE_ID"],
+        max_documents=3,
+        max_extractive_answer_count=3,
+        get_extractive_answers=True,
+    )
+    llm = VertexAI(temperature=0, verbose=True, max_output_tokens=2047,model_name=os.getenv("VERTEX_MODEL"))
+    retrieval_qa = RetrievalQA.from_chain_type(
+        llm=llm, chain_type="stuff", retriever=retriever, return_source_documents=True
+    )
+    result = retrieval_qa({"query": query})
+    return result["result"]

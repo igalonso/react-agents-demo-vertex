@@ -27,11 +27,18 @@ We use the awesome tool Langchain in this demo. If you don't know about it, you 
     - USER_FULLNAME=`<The candidate's name>`
     - JOB_POSITION=`<The Job position we are offering>`
     - COMPANY_NAME=`<A real company name>`
+    - TESTING=`True` <-- this is to avoid calling Google Search and run out of credits. If you want a REAL demo, use False and pay for the API :)
+    - LLM_TYPE="vertexai"
+    - VERTEX_MODEL="text-bison-32k"
+    - PROJECT_ID=`<ID of your GCP Project>`
+    - LOCATION_ID="global"
+    - DATA_STORE_ID=`<ID of your Datastore>`
 
     Some (or most) of the tools require registration. Here you can find information about the tools:
     - Find more information about Serpapi [here](https://serpapi.com/)
     - Find more information about ProxyCurl [here](https://nubela.co/proxycurl/)
     - Find more information about RapidAPI [here](https://rapidapi.com/hub)
+    - Find more information about how to create a Vertex Search datastore [here](https://cloud.google.com/generative-ai-app-builder/docs/try-enterprise-search). Upload a sample PDF with some fake feedback from an interview. 
 
 2. Generate a `credentials.json` file in the root folder. To do this, follow [these](https://developers.google.com/workspace/guides/create-credentials) steps.
 3. Install dependencies in the `requirements.txt`file using the following command:

@@ -1,5 +1,5 @@
 from langchain.llms import VertexAI
-from tools.tools import get_google_search, get_sql_database,get_scrape_linkedin_profile, get_next_available_date, search_llm, get_salary_data, get_what_day_is_today, get_recruiter_email_template
+from tools.tools import get_google_search, get_sql_database,get_scrape_linkedin_profile, get_next_available_date, search_llm, get_salary_data, get_what_day_is_today, get_recruiter_email_template, get_interview_feedback
 from langchain.agents import initialize_agent, Tool, AgentExecutor
 from langchain.agents import AgentType
 from langchain.agents.agent_toolkits import GmailToolkit
@@ -50,6 +50,11 @@ what_day_is_today = Tool(
     func=get_what_day_is_today,
     description="use this tool to current day today"
 )
+feedback_candidate = Tool(
+    name="feedback_candidate",
+    func=get_interview_feedback,
+    description="this tool is a retiever to get the feedback of a candidate"
+)
 
 def getLLM(temperture):
     llm_type = os.getenv("LLM_TYPE")
@@ -86,7 +91,8 @@ def get_search_agent(temperture=1) -> AgentExecutor:
         google_search,
         sql_database,
         scrape_linkedin_profile,
-        salary_data
+        salary_data,
+        feedback_candidate
     ]
 
     agent = initialize_agent(

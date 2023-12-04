@@ -19,3 +19,4 @@ random
 sqlite3
 dotenv
 faker
+google-cloud-discoveryengine

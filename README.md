@@ -29,7 +29,7 @@ We use the awesome tool Langchain in this demo. If you don't know about it, you 
     - COMPANY_NAME=`<A real company name>`
     - TESTING=`True` <-- this is to avoid calling Google Search and run out of credits. If you want a REAL demo, use False and pay for the API :)
     - LLM_TYPE="vertexai"
-    - VERTEX_MODEL="text-bison-32k"
+    - VERTEX_MODEL="text-bison"
     - PROJECT_ID=`<ID of your GCP Project>`
     - LOCATION_ID="global"
     - DATA_STORE_ID=`<ID of your Datastore>`

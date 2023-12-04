@@ -12,8 +12,6 @@ import os
 load_dotenv()
 if __name__ == "__main__":
     pass
-openai_model = "gpt-4"
-#openai_model = "gpt-3.5-turbo-16k"
 
 
 gmail_toolkit = GmailToolkit()
@@ -53,12 +51,12 @@ what_day_is_today = Tool(
     description="use this tool to current day today"
 )
 
-def getLLM():
+def getLLM(temperture):
     llm_type = os.getenv("LLM_TYPE")
     if llm_type == "openai":
-        llm = OpenAI(model_name=openai_model)
+        llm = OpenAI(model_name=os.getenv("OPENAI_MODEL"))
     elif llm_type == "vertexai":
-        llm = VertexAI(temperature=0.3, verbose=True, max_output_tokens=2047,model_name="text-bison-32k")
+        llm = VertexAI(temperature=temperture, verbose=True, max_output_tokens=2047,model_name=os.getenv("VERTEX_MODEL"))
     return llm
 
 gmail_tools = [gmail_toolkit.get_tools()[0]]
@@ -68,7 +66,7 @@ def get_gmail_agent(temperture=1) -> AgentExecutor:
     print("*" * 79)
     print("AGENT: Recruiter Email Crafter Agent!")
     print("*" * 79)
-    llm = getLLM()
+    llm = getLLM(temperture)
     
     agent = initialize_agent(
         gmail_tools,
@@ -83,7 +81,7 @@ def get_search_agent(temperture=1) -> AgentExecutor:
     print("*" * 79)
     print("AGENT: Recruiter information retrieval Agent!")
     print("*" * 79)
-    llm = getLLM()
+    llm = getLLM(temperture)
     tools_for_agent = [
         google_search,
         sql_database,
@@ -101,12 +99,12 @@ def get_search_agent(temperture=1) -> AgentExecutor:
 
     return agent
 
-def get_salary_decision_agent(temperature=1)-> AgentExecutor:
+def get_salary_decision_agent(temperture=1)-> AgentExecutor:
     print("*" * 79)
     print("AGENT: HR salary decision Agent!")
     print("*" * 79)
     #print(f"Temperature: {temperature}")
-    llm = getLLM()
+    llm = getLLM(temperture)
     tools_for_agent = [
         google_search
     ]

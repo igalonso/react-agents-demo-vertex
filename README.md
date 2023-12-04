@@ -34,8 +34,8 @@ We use the awesome tool Langchain in this demo. If you don't know about it, you 
     - Find more information about RapidAPI [here](https://rapidapi.com/hub)
 
 2. Generate a `credentials.json` file in the root folder. To do this, follow [these](https://developers.google.com/workspace/guides/create-credentials) steps.
-3. Install dependencies in `Pipfile` and create pyenv  using the following command:
-    `pipenv install`
+3. Install dependencies in the `requirements.txt`file using the following command:
+    `pip install -r requirements.txt`
 4. Enable the `Vertex AI APIs`. Click [this link](https://console.cloud.google.com/flows/enableapi?apiid=aiplatform.googleapis.com&_ga=2.183293856.707738149.1700668049-1789233788.1700133640&_gac=1.258834040.1700648608.Cj0KCQiA6vaqBhCbARIsACF9M6kWo-jRmFyoZcXyWAvgIz_GP4p8eWz7svb_u1GIdAphPhQHa8Kviq4aAlOwEALw_wcB).
 5. Run the faker script to create the rows in the database:
 
@@ -44,6 +44,8 @@ We use the awesome tool Langchain in this demo. If you don't know about it, you 
 ### Recommendations:
 
 API calls requires money. I would encourage you to generate json files with the responses you usually get from these APIs and locate them inside the utils folder. One way to do it is to call the API manually and save the result in both `job_salary.json` and `linkedin_profile.json` files. The demo is design to read these if there is an error.
+
+In addition, I have included a couple of fake responses for companies and salary searches in Google. It is within the file `search_response.json`.
 
 
 ## Execution

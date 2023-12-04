@@ -38,7 +38,7 @@ We use the awesome tool Langchain in this demo. If you don't know about it, you 
     - Find more information about Serpapi [here](https://serpapi.com/)
     - Find more information about ProxyCurl [here](https://nubela.co/proxycurl/)
     - Find more information about RapidAPI [here](https://rapidapi.com/hub)
-    - Find more information about how to create a Vertex Search datastore [here](https://cloud.google.com/generative-ai-app-builder/docs/try-enterprise-search). Upload a sample PDF with some fake feedback from an interview. 
+    - Find more information about how to create a Vertex Search datastore [here](https://cloud.google.com/generative-ai-app-builder/docs/try-enterprise-search). Upload a sample PDF with some fake feedback from an interview. You can find an example in the utils folder.
 
 2. Generate a `credentials.json` file in the root folder. To do this, follow [these](https://developers.google.com/workspace/guides/create-credentials) steps.
 3. Install dependencies in the `requirements.txt`file using the following command:

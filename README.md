@@ -67,7 +67,7 @@ The demo will mimic this behaviour:
 
 To run from the graphical interface run the following command:
 
-    streamlit run web/app.py
+    streamlit run web/app.py --server.port 8080
 
 To run it from the shell, use the following command:
 

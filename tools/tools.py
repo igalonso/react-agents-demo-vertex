@@ -72,6 +72,8 @@ def get_google_search(query: str):
             return data["solutions_architect"]
         if "Apple" in query:  
             return data["apple"]
+        if "Iberdrola" in query:  
+            return data["iberdrola"]
         if "HubSpot" in query:
             return data["hubspot"]
         if "Google" in query:
@@ -133,11 +135,12 @@ def get_scrape_linkedin_profile(linkedin_profile_url: str):
         params={"url": linkedin_profile_url, "extra": "include"},
         headers=header_dic,
     )
-
-    data = response.json()
-    if data["code"] != "200":
-        with open("utils/linkedin_profile.json", "r") as f:
+    with open("utils/linkedin_profile.json", "r") as f:
             data = json.load(f)
+    # data = response.json()
+    # if data["code"] != "200":
+    #     with open("utils/linkedin_profile.json", "r") as f:
+    #         data = json.load(f)
     experiences = data["experiences"]
     headline = data["headline"]
     summary = data["summary"]

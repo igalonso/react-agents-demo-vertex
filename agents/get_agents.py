@@ -1,9 +1,10 @@
 from langchain.llms import VertexAI
-from tools.tools import get_google_search, get_sql_database,get_scrape_linkedin_profile, get_next_available_date, search_llm, get_salary_data, get_what_day_is_today, get_recruiter_email_template, get_interview_feedback
+from tools.tools import get_google_search, get_sql_database,get_scrape_linkedin_profile, get_next_available_date, get_salary_data, get_what_day_is_today, get_recruiter_email_template, get_interview_feedback
 from langchain.agents import initialize_agent, Tool, AgentExecutor
 from langchain.agents import AgentType
 from langchain.agents.agent_toolkits import GmailToolkit
-
+#from langchain.chains import LLMMathChain
+#from pydantic import BaseModel, Field
 from langchain.llms import OpenAI
 from langchain.chat_models import ChatOpenAI as OpenAI
 
@@ -12,6 +13,7 @@ import os
 load_dotenv()
 if __name__ == "__main__":
     pass
+
 
 
 gmail_toolkit = GmailToolkit()
@@ -56,23 +58,25 @@ feedback_candidate = Tool(
     description="this tool is a retiever to get the feedback of a candidate"
 )
 
-def getLLM(temperture):
+def getLLM(temperture, model):
     llm_type = os.getenv("LLM_TYPE")
-    if llm_type == "openai":
+    if model != "":
+        llm = VertexAI(temperature=temperture, verbose=True, max_output_tokens=1020,model_name=model)
+    elif llm_type == "openai":
         llm = OpenAI(model_name=os.getenv("OPENAI_MODEL"))
     elif llm_type == "vertexai":
-        llm = VertexAI(temperature=temperture, verbose=True, max_output_tokens=2047,model_name=os.getenv("VERTEX_MODEL"))
+        llm = VertexAI(temperature=temperture, verbose=True, max_output_tokens=1020,model_name=os.getenv("VERTEX_MODEL"))
+    print("\U0001F916 Model used for this agent: " + llm.model_name)
     return llm
 
 gmail_tools = [gmail_toolkit.get_tools()[0]]
 
-def get_gmail_agent(temperture=1) -> AgentExecutor:
+def get_gmail_agent(temperture=0) -> AgentExecutor:
     #print(f"Temperature: {temperture}")
     print("*" * 79)
     print("AGENT: Recruiter Email Crafter Agent!")
     print("*" * 79)
-    llm = getLLM(temperture)
-    
+    llm = getLLM(temperture,os.getenv("VERTEX_MODEL_EMAIL"))
     agent = initialize_agent(
         gmail_tools,
         llm,
@@ -81,12 +85,12 @@ def get_gmail_agent(temperture=1) -> AgentExecutor:
     )
     return agent
 
-def get_search_agent(temperture=1) -> AgentExecutor:
+def get_search_agent(temperture=0) -> AgentExecutor:
     #print(f"Temperature: {temperture}")
     print("*" * 79)
     print("AGENT: Recruiter information retrieval Agent!")
     print("*" * 79)
-    llm = getLLM(temperture)
+    llm = getLLM(temperture,os.getenv("VERTEX_MODEL_GATHERING"))
     tools_for_agent = [
         google_search,
         sql_database,
@@ -105,14 +109,18 @@ def get_search_agent(temperture=1) -> AgentExecutor:
 
     return agent
 
-def get_salary_decision_agent(temperture=1)-> AgentExecutor:
+
+def get_salary_decision_agent(temperture=0)-> AgentExecutor:
     print("*" * 79)
     print("AGENT: HR salary decision Agent!")
     print("*" * 79)
     #print(f"Temperature: {temperature}")
-    llm = getLLM(temperture)
+   
+    llm = getLLM(temperture,os.getenv("VERTEX_MODEL_SALARY"))
+    #llm_math_chain = LLMMathChain(llm=llm, verbose=True)
     tools_for_agent = [
-        google_search
+        google_search,
+        scrape_linkedin_profile
     ]
 
     agent = initialize_agent(

@@ -6,11 +6,9 @@ import os
 import json
 import datetime
 from dotenv import load_dotenv
-from langchain.retrievers import (
-    GoogleVertexAIMultiTurnSearchRetriever,
-    GoogleVertexAISearchRetriever,
-)
+from langchain.retrievers import GoogleVertexAISearchRetriever
 from langchain.chains import RetrievalQA
+from datetime import datetime
 
 load_dotenv()
 if __name__ == "__main__":
@@ -51,12 +49,30 @@ class CustomSerpAPIWrapper(SerpAPIWrapper):
         else:
             toret = "No good search result found"
         return toret
-# Searches on LLM.
-def search_llm(query: str):
-    """Searches on LLM."""
-    llm = VertexAI()
-    res = llm(f"{query}")
-    return res.strip()
+
+def query_text_bison_llm(query: str):
+    import vertexai
+    from vertexai.language_models import TextGenerationModel
+
+    project_id = os.environ["PROJECT_ID"]
+    location = "europe-west1"
+
+    vertexai.init(project=project_id, location=location)
+    parameters = {
+        "temperature": 0,  # Temperature controls the degree of randomness in token selection.
+        "max_output_tokens": 2040,  # Token limit determines the maximum amount of text output.
+        "top_p": 0.8,  # Tokens are selected from most probable to least until the sum of their probabilities equals the top_p value.
+        "top_k": 40,  # A top_k of 1 means the selected token is the most probable among all tokens.
+    }
+
+    model = TextGenerationModel.from_pretrained("text-bison")
+    response = model.predict(
+        query,
+        **parameters,
+    )
+    print(f"Response from Model: {response.text}")
+    return response.text
+
 # Searches on Google.
 def get_google_search(query: str):
     """Searches on Google."""
@@ -66,22 +82,31 @@ def get_google_search(query: str):
             data = json.load(f)
         if "salary" in query:
             return data["salary_sales_engineer"]
-        if "Solutions Architect" in query: 
+        elif "Solutions Architect" in query: 
             return data["solutions_architect"]
-        if "solutions architect" in query: 
+        elif "solutions architect" in query: 
             return data["solutions_architect"]
-        if "Apple" in query:  
+        elif "Apple" in query:  
             return data["apple"]
-        if "HubSpot" in query:
+        elif "HubSpot" in query:
             return data["hubspot"]
-        if "Google" in query:
+        elif "Google" in query:
             return data["google"]
-        if "average salary of a Lawyer" in query:
+        elif "average salary of a Lawyer" in query:
             return data["salary_lawyer"]
-        if "Cepsa" in query:
+        elif "Cepsa" in query:
             return data["cepsa"]
-        if "Amazon" in query:
+        elif "Amazon" in query:
             return data["amazon"]
+        elif "Microsoft" in query:
+            return data["microsoft"]
+        elif "Facebook" in query:
+            return data["facebook"]
+        elif "Talgo" in query:
+            return data["talgo"]
+        else:
+            return query_text_bison_llm(query)
+        
 
 
     search = CustomSerpAPIWrapper()
@@ -135,7 +160,7 @@ def get_scrape_linkedin_profile(linkedin_profile_url: str):
     )
 
     data = response.json()
-    if data["code"] != "200":
+    if if testing==True or ("code" in data and data["code"] != "200"):
         with open("utils/linkedin_profile.json", "r") as f:
             data = json.load(f)
     experiences = data["experiences"]
@@ -186,6 +211,7 @@ def get_salary_data(query: str):
     return data
 
 def get_interview_feedback(query: str):
+    #print(query)
     retriever = GoogleVertexAISearchRetriever(
         project_id=os.environ["PROJECT_ID"],
         location_id=os.environ["LOCATION_ID"],
@@ -194,9 +220,10 @@ def get_interview_feedback(query: str):
         max_extractive_answer_count=3,
         get_extractive_answers=True,
     )
-    llm = VertexAI(temperature=0, verbose=True, max_output_tokens=2047,model_name=os.getenv("VERTEX_MODEL"))
+    llm = VertexAI(temperature=0, verbose=True,model_name="text-bison@001")
     retrieval_qa = RetrievalQA.from_chain_type(
         llm=llm, chain_type="stuff", retriever=retriever, return_source_documents=True
     )
     result = retrieval_qa({"query": query})
+    #print(result["result"])
     return result["result"]

@@ -7,7 +7,6 @@ sys.path.insert(1, '')
 
 import agent
 import os
-os.environ["TESTING"] = "True"
 
 def remote_css(url):
     st.markdown(f'<link href="{url}" rel="stylesheet">', unsafe_allow_html=True)
@@ -32,34 +31,33 @@ st.markdown(
     f'<div>Welcome to the ReAct! We are going to do an example of a nice job offer to a candidate. For that we need to do some steps:<ul><li>Our recruiter agent will gather information about the candidate and the company using Tools.</li><li>That information will be shared with the HR department who is resposible to allocate budget for the salary.</li><li>With this information, the recruiter is going to draft an email to the candidate to explaion the position and the salary offer.</li></ul>LETS GO!</div>',
     unsafe_allow_html=True
 )
-# """### gif from local file"""
-# file_ = open("web/img/demo.gif", "rb")
-# contents = file_.read()
-# data_url = base64.b64encode(contents).decode("utf-8")
-# file_.close()
 
-# st.markdown(
-#     f'<img src="data:image/gif;base64,{data_url}" alt="cat gif">',
-#     unsafe_allow_html=True,
-# )
-
-#st.image("web/img/sdr.jpeg", width=300)
-
-full_name = st.text_input("Full Name of Candidate")
-company_name = st.text_input("Full Name of the company offering")
-position=st.text_input("Full Name of the postion offered")
+full_name = st.text_input("Full Name of Candidate", value="Ignacio Garcia")
+company_name = st.text_input("Full Name of the company offering", value="Nintendo")
+position=st.text_input("Full Name of the postion offered",value="Solutions Architect")
+testing = st.checkbox("Testing")
+model_for_information_gathering = st.selectbox("Select a model for information gathering", ("text-bison@001","text-bison@002", "text-unicorn"), value="text-bison@002")
+model_for_hr_salary_decision = st.selectbox("Select a model for HR salary decision", ("text-bison@001","text-bison@002", "text-unicorn"), value="text-bison@001")
+model_for_email_draft = st.selectbox("Select a model for email draft", ("text-bison@001","text-bison@002", "text-unicorn"), value="text-unicorn")
 verbose = False
 temp = 0
 
 
 generate = st.button("Run Agent🤖")
+#stop = st.button("Stop Agent🤖")
 
 if generate:
     with st.spinner("Agent running..."):
+        os.environ["VERTEX_MODEL_GATHERING"] = model_for_information_gathering
+        os.environ["VERTEX_MODEL_SALARY"] = model_for_hr_salary_decision
+        os.environ["VERTEX_MODEL_EMAIL"] = model_for_email_draft
+        os.environ["TESTING"] = str(testing)
         agent.recruiter_start(position, company_name, full_name, verbose)
         st.balloons()
         st.success("Agent finished! - Now you can access your mail to find out the draft offer")
         st.write("[gmail link to drafts](https://mail.google.com/mail/u/0/#drafts)")
+# if stop:
+#     st.stop()
 
 local_css("web/css/frontend.css")
 remote_css("https://fonts.googleapis.com/icon?family=Material+Icons")

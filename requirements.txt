@@ -15,9 +15,6 @@ tweepy
 google-api-python-client
 google-auth-oauthlib
 wikipedia
-# random
-# sqlite3
-# dotenv
 faker
 google-cloud-discoveryengine
 google-auth-httplib2

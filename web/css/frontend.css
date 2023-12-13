@@ -59,11 +59,27 @@ div.block-container > div > div div[data-testid="stExpander"]{
     width: 100%;
 }
 
-.stMarkdown, .stExpander, .row-widget, .stTextArea {
+div.block-container > div > div div.element-container:not(:first-child),
+div.block-container > div > div div[data-testid="block-container"]{
+    max-width: 736px;
+    margin: 1rem auto 0;
+    width: 100%;
+}
+
+div[data-testid="stSelectbox"]{
     width: initial !important;
 }
-.stMarkdown *, .stExpander *{
+.stSlider{
     width: initial !important;
+}
+.gif_holder{
+    width: 400px !important;
+}
+.stMarkdown, .stExpander, .row-widget, .stTextArea , .stSlider, .stSelectbox{
+    width: initial;
+}
+.stMarkdown *, .stExpander *{
+    width: initial;
 }
 
 .header {
@@ -94,4 +110,8 @@ div.block-container > div > div div[data-testid="stExpander"]{
 
 footer {
     visibility: hidden;
+}
+
+.gif_holder{
+    width: 400px !important;
 }

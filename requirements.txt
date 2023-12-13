@@ -7,7 +7,7 @@ google-generativeai
 pinecone-client
 openai==0.28
 tiktoken
-google-cloud-aiplatform>=1.38
+google-cloud-aiplatform
 black
 python-dotenv
 google-search-results

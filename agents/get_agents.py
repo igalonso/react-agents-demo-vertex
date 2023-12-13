@@ -1,4 +1,5 @@
 from langchain.llms import VertexAI
+from langchain_community.llms import VertexAI as VertexAICommunity
 from tools.tools import get_google_search, get_sql_database,get_scrape_linkedin_profile, get_next_available_date, get_salary_data, get_what_day_is_today, get_recruiter_email_template, get_interview_feedback
 from langchain.agents import initialize_agent, Tool, AgentExecutor
 from langchain.agents import AgentType
@@ -61,7 +62,15 @@ feedback_candidate = Tool(
 def getLLM(temperture, model):
     llm_type = os.getenv("LLM_TYPE")
     if model != "":
-        llm = VertexAI(temperature=temperture, verbose=True, max_output_tokens=1020,model_name=model)
+        if model == "gemini-pro":
+            try:
+                llm = VertexAICommunity(model_name="gemini-pro")
+            except Exception as e:
+                print(str(e))
+                print("Model gemini failed not found, using text-bison@002")
+                llm = VertexAI(temperature=temperture, verbose=True, max_output_tokens=1020,model_name="text-bison@002")
+        else:
+            llm = VertexAI(temperature=temperture, verbose=True, max_output_tokens=1020,model_name="text-unicorn")
     elif llm_type == "openai":
         llm = OpenAI(model_name=os.getenv("OPENAI_MODEL"))
     elif llm_type == "vertexai":

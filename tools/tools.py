@@ -8,6 +8,8 @@ import datetime
 from dotenv import load_dotenv
 from langchain.retrievers import GoogleVertexAISearchRetriever
 from langchain.chains import RetrievalQA
+import vertexai 
+from vertexai.language_models import TextGenerationModel
 from datetime import datetime
 
 load_dotenv()
@@ -51,12 +53,8 @@ class CustomSerpAPIWrapper(SerpAPIWrapper):
         return toret
 
 def query_text_bison_llm(query: str):
-    import vertexai
-    from vertexai.language_models import TextGenerationModel
-
     project_id = os.environ["PROJECT_ID"]
     location = "europe-west1"
-
     vertexai.init(project=project_id, location=location)
     parameters = {
         "temperature": 0,  # Temperature controls the degree of randomness in token selection.
@@ -158,9 +156,8 @@ def get_scrape_linkedin_profile(linkedin_profile_url: str):
         params={"url": linkedin_profile_url, "extra": "include"},
         headers=header_dic,
     )
-
     data = response.json()
-    if if testing==True or ("code" in data and data["code"] != "200"):
+    if testing==True or ("code" in data and data["code"] != "200"):
         with open("utils/linkedin_profile.json", "r") as f:
             data = json.load(f)
     experiences = data["experiences"]
@@ -225,5 +222,4 @@ def get_interview_feedback(query: str):
         llm=llm, chain_type="stuff", retriever=retriever, return_source_documents=True
     )
     result = retrieval_qa({"query": query})
-    #print(result["result"])
     return result["result"]

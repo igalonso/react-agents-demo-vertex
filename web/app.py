@@ -35,10 +35,10 @@ st.markdown(
 full_name = st.text_input("Full Name of Candidate", value="Ignacio Garcia")
 company_name = st.text_input("Full Name of the company offering", value="Nintendo")
 position=st.text_input("Full Name of the postion offered",value="Solutions Architect")
-testing = st.checkbox("Testing")
-model_for_information_gathering = st.selectbox("Select a model for information gathering", ("text-bison@001","text-bison@002", "text-unicorn"), value="text-bison@002")
-model_for_hr_salary_decision = st.selectbox("Select a model for HR salary decision", ("text-bison@001","text-bison@002", "text-unicorn"), value="text-bison@001")
-model_for_email_draft = st.selectbox("Select a model for email draft", ("text-bison@001","text-bison@002", "text-unicorn"), value="text-unicorn")
+testing = st.checkbox("Testing", value=True)
+model_for_information_gathering = st.selectbox("Select a model for information gathering", ("text-bison@002","text-bison@001", "text-unicorn","gemini-pro"))
+model_for_hr_salary_decision = st.selectbox("Select a model for HR salary decision", ("text-bison@001","text-bison@002", "text-unicorn","gemini-pro"))
+model_for_email_draft = st.selectbox("Select a model for email draft", ("text-unicorn", "text-bison@001","text-bison@002","gemini-pro"))
 verbose = False
 temp = 0
 

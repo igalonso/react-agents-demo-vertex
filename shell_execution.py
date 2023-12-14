@@ -11,6 +11,9 @@ company_name = os.getenv("COMPANY_NAME")
 position=os.getenv("JOB_POSITION")
 verbose = False
 temp = 0
-os.environ["VERTEX_MODEL_GATHERING"] = "gemini-pro"
+os.environ["VERTEX_MODEL_GATHERING"] = "text-bison@002"
+os.environ["VERTEX_MODEL_SALARY"] = "text-bison@001"
+os.environ["VERTEX_MODEL_EMAIL"] = "text-unicorn"
+os.environ["TESTING"] = "True"
 
 recruiter_start(position, company_name, full_name, verbose)

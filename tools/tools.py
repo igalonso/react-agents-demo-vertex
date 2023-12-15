@@ -110,16 +110,6 @@ def get_google_search(query: str):
     search = CustomSerpAPIWrapper()
     res = search.run(f"{query}")
     return res.strip()
-# Returns a SQL table for candidates. 
-def describe_sql_table(query: str):
-    """Returns a SQL table for candidates. """
-    sql = SQLDatabase.from_uri(os.environ["SQL_DATABASE_URI"])
-    try:
-        res = sql.run("PRAGMA table_info('scouted_candidates');")
-    except Exception as e:
-        res = "You used a wrong query. Please try again with these fields candidate_id, first_name, last_name, hire_date, min_salary, max_salary, email, phone_number, location, experience_years, linkedin_url, notes \n"
-        res = res + str(e)
-    return res
 # Returns a SQL database. The tables are scouted_candidates and fields in this table are:  candidate_id, first_name, last_name, hire_date, min_salary, max_salary, email, phone_number, location, experience_years, linkedin_url, notes 
 def get_sql_database(query: str):
     """Returns a SQL database. The tables are scouted_candidates and fields in this table are:  candidate_id, first_name, last_name, hire_date, min_salary, max_salary, email, phone_number, location, experience_years, linkedin_url, notes """

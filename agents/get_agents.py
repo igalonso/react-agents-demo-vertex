@@ -61,9 +61,10 @@ feedback_candidate = Tool(
 
 def getLLM(temperture, model):
     llm_type = os.getenv("LLM_TYPE")
+
     if model == "gemini-pro":
             try:
-                llm = VertexAICommunity(temperature=temperture, verbose=True, max_output_tokens=8192,model_name="gemini-pro")
+                llm = VertexAI(temperature=temperture, verbose=True, max_output_tokens=8192,model_name="gemini-pro")
             except Exception as e:
                 print(str(e))
                 print("Model gemini failed not found, using text-bison@002")

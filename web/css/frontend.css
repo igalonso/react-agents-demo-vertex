@@ -59,6 +59,10 @@ div.block-container > div > div div[data-testid="stExpander"]{
     width: 100%;
 }
 
+div.block-container > div > div div[data-testid="stHorizontalBlock"]{
+    padding-left: 3%;
+}
+
 div.block-container > div > div div.element-container:not(:first-child),
 div.block-container > div > div div[data-testid="block-container"]{
     max-width: 736px;

@@ -1,5 +1,7 @@
 import streamlit as st
 import base64
+from contextlib import contextmanager, redirect_stdout
+from io import StringIO
 
 import sys
 # caution: path[0] is reserved for script path (or '' in REPL)
@@ -14,7 +16,7 @@ def remote_css(url):
 def local_css(file_name):
     with open(file_name) as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-    
+
 st.set_page_config(
     page_icon="web/img/robot-1.1s-200px.png",
     layout="wide",
@@ -32,18 +34,23 @@ st.markdown(
     unsafe_allow_html=True
 )
 st.image("web/img/diagram.png", width=700)
-
-full_name = st.text_input("Full Name of Candidate", value="Ignacio Garcia")
-company_name = st.text_input("Full Name of the company offering", value="Nintendo")
-position=st.text_input("Full Name of the postion offered",value="Solutions Architect")
-
-testing = st.checkbox("Testing", value=True)
-model_for_information_gathering = st.selectbox("Select a model for information gathering", ("text-bison@002","text-bison@001", "text-unicorn","gemini-pro"))
-model_for_hr_salary_decision = st.selectbox("Select a model for HR salary decision", ("text-bison@001","text-bison@002", "text-unicorn","gemini-pro"))
-model_for_email_draft = st.selectbox("Select a model for email draft", ("text-unicorn", "text-bison@001","text-bison@002","gemini-pro"))
-temperature_slider = st.slider("Temperature", min_value=0.0, max_value=1.0, value=0.0, step=0.01)
-verbose = False
-generate = st.button("Run Agent🤖")
+col1, col2, col3 = st.columns(3)
+with col1:
+    full_name = st.text_input("Full Name of Candidate", value="Ignacio Garcia")
+    company_name = st.text_input("Full Name of the company offering", value="Nintendo")
+    position=st.text_input("Full Name of the postion offered",value="Solutions Architect")
+    testing = st.checkbox("Testing", value=True)
+with col2:
+    
+    model_for_information_gathering = st.selectbox("Select a model for information gathering", ("text-bison@002","text-bison@001", "text-unicorn","gemini-pro"))
+    model_for_hr_salary_decision = st.selectbox("Select a model for HR salary decision", ("text-bison@001","text-bison@002", "text-unicorn","gemini-pro"))
+    model_for_email_draft = st.selectbox("Select a model for email draft", ("text-unicorn", "text-bison@001","text-bison@002","text-bison-32k"))
+    temperature_slider = st.slider("Temperature", min_value=0.0, max_value=1.0, value=0.0, step=0.01)
+    temperature_slider_email = st.slider("Temperature for email", min_value=0.0, max_value=1.0, value=0.0, step=0.01)
+    verbose = False
+    generate = st.button("Run Agent🤖")
+    os.environ["TEMPERATURE_AGENTS"] = str(temperature_slider)
+    os.environ["TEMPERATURE_EMAIL"] = str(temperature_slider_email)
 
 #info_agent = st.image('img/info_agent.gif')
 file_ = open(os.getcwd()+"/web/img/info_agent.gif", "rb")
@@ -61,32 +68,46 @@ file_.close()
 #stop = st.button("Stop Agent🤖")
 
 if generate:
+
     with st.spinner("Agent running..."):
         os.environ["VERTEX_MODEL_GATHERING"] = model_for_information_gathering
         os.environ["VERTEX_MODEL_SALARY"] = model_for_hr_salary_decision
         os.environ["VERTEX_MODEL_EMAIL"] = model_for_email_draft
         os.environ["TESTING"] = str(testing)
-        #agent.recruiter_start(position, company_name, full_name, verbose, temperature_slider)
-        info_agent_md = st.markdown(
-            f'<div class="gif_holder"><img  src="data:image/gif;base64,{info_agent_image}" alt="Info Agent GIF" width="700px !important" style="border: solid red;"></div>',
-            unsafe_allow_html=True,
-        )
+
+        
+
+        with col3:
+            info_agent_md = st.markdown(
+                f'<div class="gif_holder"><img  src="data:image/gif;base64,{info_agent_image}" alt="Info Agent GIF" style="border: solid red; width: 100%"></div>',
+                unsafe_allow_html=True,
+            )
+            # output = st.empty()
+            # output.style
+            # with st_capture(output.text):
         candidate_summary = agent.recruiter_personal_inspection(position, company_name, full_name, verbose)
-        info_agent_md.empty()
-        hr_agent_md = st.markdown(
-            f'<div class="gif_holder"><img  src="data:image/gif;base64,{hr_agent_image}" alt="HR Agent GIF" width="700px" style="border: solid red;"></div>',
-            unsafe_allow_html=True,
-        )
-        #st.write(candidate_summary)
+            # output.empty()
+        with col3:
+            info_agent_md.empty()
+            hr_agent_md = st.markdown(
+            f'<div class="gif_holder"><img  src="data:image/gif;base64,{hr_agent_image}" alt="HR Agent GIF" style="border: solid red; width: 100%"></div>',
+                unsafe_allow_html=True,
+            )
+        # output = st.empty()
+        # with st_capture(output.text):
         salary_offer = agent.hr_salary_estimation(candidate_summary, verbose)
-        #st.write("- **Salary offered:** "+salary_offer)
         candidate_summary = candidate_summary + "\n- Salary Offer: " + salary_offer + "\n"
-        hr_agent_md.empty()
-        email_agent_md = st.markdown(
-            f'<div class="gif_holder"><img  src="data:image/gif;base64,{email_agent_image}" alt="HR Agent GIF" width="700px" style="border: solid red;"></div>',
-            unsafe_allow_html=True,
-        )
+        # output.empty()
+        with col3:
+            hr_agent_md.empty()
+            email_agent_md = st.markdown(
+                f'<div class="gif_holder"><img  src="data:image/gif;base64,{email_agent_image}" alt="HR Agent GIF" style="border: solid red; width: 100%"></div>',
+                unsafe_allow_html=True,
+            )
+            # output = st.empty()
+            # with st_capture(output.text):
         agent.recruiter_email_creator(candidate_summary,full_name, company_name, position, verbose)
+            # output.empty()
         email_agent_md.empty()
         st.balloons()
         st.success("Agent finished! - Now you can access your mail to find out the draft offer")  

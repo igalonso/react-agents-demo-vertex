@@ -1,8 +1,8 @@
-from langchain.llms import VertexAI
+from langchain_community.llms import VertexAI
 from tools.tools import get_google_search, get_sql_database,get_scrape_linkedin_profile, get_next_available_date, get_salary_data, get_what_day_is_today, get_recruiter_email_template, get_interview_feedback
 from langchain.agents import initialize_agent, Tool, AgentExecutor
 from langchain.agents import AgentType
-from langchain.agents.agent_toolkits import GmailToolkit
+from langchain_community.agent_toolkits import GmailToolkit
 
 from dotenv import load_dotenv
 import os

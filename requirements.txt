@@ -1,4 +1,6 @@
 langchain
+langchain-community
+watchdog
 streamlit
 gitpython
 streamlit-chat

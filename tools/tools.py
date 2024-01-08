@@ -1,12 +1,12 @@
 import requests
-from langchain.utilities import SerpAPIWrapper
+from langchain_community.utilities import SerpAPIWrapper
 from langchain.sql_database import SQLDatabase
-from langchain.llms import VertexAI
+from langchain_community.llms import VertexAI
 import os
 import json
 import datetime
 from dotenv import load_dotenv
-from langchain.retrievers import GoogleVertexAISearchRetriever
+from langchain_community.retrievers import GoogleVertexAISearchRetriever
 from langchain.chains import RetrievalQA
 import vertexai 
 from vertexai.language_models import TextGenerationModel
